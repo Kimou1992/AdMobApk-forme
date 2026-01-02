@@ -1,3 +1,10 @@
+name: Build Android APK
+
+on:
+  push:
+    branches: [ main ]        # triggers عند كل push على main
+  workflow_dispatch:          # يسمح بالتشغيل يدوي من GitHub
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -5,7 +12,8 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
-    - uses: actions/setup-java@v4
+    - name: Setup Java 17
+      uses: actions/setup-java@v4
       with:
         distribution: temurin
         java-version: 17
@@ -13,7 +21,7 @@ jobs:
     - name: Make gradlew executable
       run: chmod +x gradlew
 
-    - name: Build APK
+    - name: Build release APK
       run: ./gradlew assembleRelease
       shell: bash
 
